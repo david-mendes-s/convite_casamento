@@ -110,7 +110,7 @@
     font-size: 18px;
     transition: border-color .2s ease, background .2s ease;
   }
-  .opcao:hover { border-color: var(--verde); }
+  @media (hover: hover) and (pointer: fine) { .opcao:hover { border-color: var(--verde); } }
   .opcao input { accent-color: var(--verde-escuro); width: 18px; height: 18px; cursor: pointer; }
   .opcao.marcada { border-color: var(--verde-escuro); background: #f0ead9; }
 
@@ -131,7 +131,7 @@
     cursor: pointer;
     transition: background .2s ease, border-color .2s ease;
   }
-  .btn-remover:hover { background: #f7e8e4; border-color: #c98b80; }
+  @media (hover: hover) and (pointer: fine) { .btn-remover:hover { background: #f7e8e4; border-color: #c98b80; } }
   .btn-adicionar {
     display: inline-flex;
     align-items: center;
@@ -148,7 +148,7 @@
     margin-top: 2px;
     transition: background .2s ease;
   }
-  .btn-adicionar:hover { background: #efe8d6; }
+  @media (hover: hover) and (pointer: fine) { .btn-adicionar:hover { background: #efe8d6; } }
   .btn-adicionar svg { width: 16px; height: 16px; }
 
   .btn-enviar {
@@ -167,7 +167,7 @@
     cursor: pointer;
     transition: background .2s ease, opacity .2s ease;
   }
-  .btn-enviar:hover { background: #4b5a35; }
+  @media (hover: hover) and (pointer: fine) { .btn-enviar:hover { background: #4b5a35; } }
   .btn-enviar:disabled { opacity: .6; cursor: default; }
 
   .voltar {
