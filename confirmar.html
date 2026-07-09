@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirmação de Presença — Alyce e David</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #75825e;
+    --verde-escuro: #3f4d2c;
+    --creme: #f5efe2;
+    --creme-borda: #e3dac6;
+    --texto: #3b4227;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--verde);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--texto);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 16px 56px;
+  }
+  .cartao {
+    width: 100%;
+    max-width: 540px;
+    background: var(--creme);
+    border: 1px solid var(--creme-borda);
+    border-radius: 10px;
+    box-shadow: 0 14px 40px rgba(0,0,0,.28);
+    padding: 40px 30px 36px;
+  }
+  .monograma {
+    text-align: center;
+    font-size: 26px;
+    letter-spacing: 6px;
+    color: var(--verde-escuro);
+    font-weight: 600;
+  }
+  .nomes {
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--verde-escuro);
+    margin-top: 4px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 27px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--verde-escuro);
+    font-weight: 600;
+    margin: 22px 0 4px;
+  }
+  .subtitulo {
+    text-align: center;
+    font-size: 17px;
+    color: #6d7358;
+    margin-bottom: 26px;
+  }
+  .divisor {
+    width: 60px;
+    height: 1px;
+    background: var(--creme-borda);
+    margin: 0 auto 26px;
+  }
+  .campo { margin-bottom: 22px; }
+  label.rotulo {
+    display: block;
+    font-size: 18px;
+    letter-spacing: .5px;
+    color: var(--verde-escuro);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    font-family: inherit;
+    font-size: 18px;
+    color: var(--texto);
+    background: #fffdf8;
+    border: 1px solid var(--creme-borda);
+    border-radius: 7px;
+    padding: 11px 14px;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  input:focus {
+    border-color: var(--verde);
+    box-shadow: 0 0 0 3px rgba(117,130,94,.18);
+  }
+  .opcoes { display: flex; flex-direction: column; gap: 10px; }
+  .opcao {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--creme-borda);
+    border-radius: 8px;
+    padding: 13px 16px;
+    cursor: pointer;
+    background: #fffdf8;
+    font-size: 18px;
+    transition: border-color .2s ease, background .2s ease;
+  }
+  .opcao:hover { border-color: var(--verde); }
+  .opcao input { accent-color: var(--verde-escuro); width: 18px; height: 18px; cursor: pointer; }
+  .opcao.marcada { border-color: var(--verde-escuro); background: #f0ead9; }
+
+  #bloco-detalhes { overflow: hidden; }
+  #bloco-detalhes[hidden] { display: none; }
+
+  .acompanhante-linha { display: flex; gap: 8px; margin-bottom: 10px; }
+  .acompanhante-linha input { flex: 1; }
+  .btn-remover {
+    flex: 0 0 auto;
+    width: 46px;
+    border: 1px solid var(--creme-borda);
+    background: #fffdf8;
+    border-radius: 7px;
+    color: #a04a3c;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .btn-remover:hover { background: #f7e8e4; border-color: #c98b80; }
+  .btn-adicionar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px dashed var(--verde);
+    color: var(--verde-escuro);
+    font-family: inherit;
+    font-size: 16px;
+    letter-spacing: .5px;
+    padding: 9px 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    margin-top: 2px;
+    transition: background .2s ease;
+  }
+  .btn-adicionar:hover { background: #efe8d6; }
+  .btn-adicionar svg { width: 16px; height: 16px; }
+
+  .btn-enviar {
+    width: 100%;
+    margin-top: 8px;
+    background: var(--verde-escuro);
+    color: var(--creme);
+    border: 1px solid rgba(245,239,226,.3);
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 15px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .2s ease, opacity .2s ease;
+  }
+  .btn-enviar:hover { background: #4b5a35; }
+  .btn-enviar:disabled { opacity: .6; cursor: default; }
+
+  .voltar {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: rgba(245,239,226,.9);
+    font-size: 16px;
+    letter-spacing: 1px;
+    text-decoration: none;
+  }
+  .voltar:hover { text-decoration: underline; }
+
+  .aviso {
+    font-size: 15px;
+    color: #a04a3c;
+    margin-top: 6px;
+    min-height: 18px;
+  }
+
+  /* Tela de sucesso */
+  #sucesso { text-align: center; display: none; }
+  #sucesso.visivel { display: block; }
+  #sucesso .icone {
+    width: 68px; height: 68px;
+    margin: 4px auto 18px;
+    border-radius: 50%;
+    background: #eef0e4;
+    border: 2px solid var(--verde);
+    display: flex; align-items: center; justify-content: center;
+  }
+  #sucesso .icone svg { width: 34px; height: 34px; stroke: var(--verde-escuro); }
+  #sucesso h2 {
+    font-size: 26px; letter-spacing: 2px; color: var(--verde-escuro);
+    font-weight: 600; margin-bottom: 10px;
+  }
+  #sucesso p { font-size: 18px; color: #5c6247; }
+</style>
+</head>
+<body>
+  <div class="cartao">
+    <!-- ================= FORMULÁRIO ================= -->
+    <form id="form" novalidate>
+      <div class="monograma">AD</div>
+      <div class="nomes">Alyce &amp; David</div>
+      <h1>Confirme sua presença</h1>
+      <p class="subtitulo">Sua presença é o nosso maior presente.</p>
+      <div class="divisor"></div>
+
+      <div class="campo">
+        <label class="rotulo" for="nome">Nome completo</label>
+        <input type="text" id="nome" name="nome" autocomplete="name" placeholder="Seu nome" required>
+      </div>
+
+      <div class="campo">
+        <span class="rotulo">Confirme sua presença</span>
+        <div class="opcoes">
+          <label class="opcao">
+            <input type="radio" name="presenca" value="sim" required>
+            <span>Sim, estarei presente</span>
+          </label>
+          <label class="opcao">
+            <input type="radio" name="presenca" value="nao">
+            <span>Infelizmente, não poderei ir</span>
+          </label>
+        </div>
+      </div>
+
+      <div id="bloco-detalhes" hidden>
+        <div class="campo">
+          <label class="rotulo" for="total">Quantas pessoas irão, incluindo você?</label>
+          <input type="number" id="total" name="total" min="1" step="1" value="1">
+        </div>
+
+        <div class="campo">
+          <span class="rotulo">Nome dos acompanhantes</span>
+          <div id="acompanhantes"></div>
+          <button type="button" class="btn-adicionar" id="btn-add">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Adicionar acompanhante
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-enviar" id="btn-enviar">Enviar confirmação</button>
+      <p class="aviso" id="aviso"></p>
+    </form>
+
+    <!-- ================= SUCESSO ================= -->
+    <div id="sucesso">
+      <div class="icone">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <div class="monograma">AD</div>
+      <h2 id="sucesso-titulo">Presença confirmada!</h2>
+      <p id="sucesso-msg">Obrigado! Recebemos a sua resposta com muito carinho.</p>
+    </div>
+  </div>
+
+  <a class="voltar" href="index.html">← Voltar ao convite</a>
+
+<script>
+  /* ==========================================================================
+     CONFIGURAÇÃO DO WEBHOOK n8n
+     Cole abaixo a URL de "Production" do nó Webhook do seu fluxo no n8n.
+     Enquanto estiver com o valor de exemplo, o envio roda em modo demonstração
+     (não envia para lugar nenhum, apenas mostra a tela de sucesso).
+     Lembre-se de habilitar no nó Webhook do n8n a opção de CORS
+     ("Allowed Origins (CORS)") com o valor *  (ou o domínio do convite).
+     ========================================================================== */
+  const WEBHOOK_URL = "COLE_AQUI_A_URL_DO_WEBHOOK_N8N";
+
+  const form = document.getElementById('form');
+  const blocoDetalhes = document.getElementById('bloco-detalhes');
+  const acompanhantesBox = document.getElementById('acompanhantes');
+  const aviso = document.getElementById('aviso');
+  const btnEnviar = document.getElementById('btn-enviar');
+
+  // Realce visual da opção marcada
+  document.querySelectorAll('input[name="presenca"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      document.querySelectorAll('.opcao').forEach(function (o) { o.classList.remove('marcada'); });
+      radio.closest('.opcao').classList.add('marcada');
+      const vai = radio.value === 'sim';
+      blocoDetalhes.hidden = !vai;
+      if (vai && acompanhantesBox.children.length === 0) adicionarAcompanhante();
+    });
+  });
+
+  // Campo dinâmico de acompanhante
+  function adicionarAcompanhante(valor) {
+    const linha = document.createElement('div');
+    linha.className = 'acompanhante-linha';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'Nome do acompanhante';
+    input.setAttribute('aria-label', 'Nome do acompanhante');
+    if (valor) input.value = valor;
+
+    const remover = document.createElement('button');
+    remover.type = 'button';
+    remover.className = 'btn-remover';
+    remover.setAttribute('aria-label', 'Remover acompanhante');
+    remover.innerHTML = '&times;';
+    remover.addEventListener('click', function () { linha.remove(); });
+
+    linha.appendChild(input);
+    linha.appendChild(remover);
+    acompanhantesBox.appendChild(linha);
+    input.focus();
+  }
+
+  document.getElementById('btn-add').addEventListener('click', function () { adicionarAcompanhante(); });
+
+  // Envio
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    aviso.textContent = '';
+
+    const nome = document.getElementById('nome').value.trim();
+    const presencaEl = form.querySelector('input[name="presenca"]:checked');
+
+    if (!nome) { aviso.textContent = 'Por favor, informe o seu nome.'; return; }
+    if (!presencaEl) { aviso.textContent = 'Por favor, confirme a sua presença.'; return; }
+
+    const vai = presencaEl.value === 'sim';
+    const acompanhantes = vai
+      ? Array.from(acompanhantesBox.querySelectorAll('input'))
+          .map(function (i) { return i.value.trim(); })
+          .filter(function (v) { return v.length > 0; })
+      : [];
+
+    const dados = {
+      nome: nome,
+      presenca: presencaEl.value,
+      presenca_texto: vai ? 'Sim, estarei presente' : 'Infelizmente, não poderei ir',
+      total_pessoas: vai ? Number(document.getElementById('total').value) || 1 : 0,
+      acompanhantes: acompanhantes,
+      acompanhantes_texto: acompanhantes.join(', '),
+      data_envio: new Date().toISOString(),
+      origem: 'convite-web'
+    };
+
+    enviar(dados);
+  });
+
+  function mostrarSucesso(dados) {
+    const titulo = document.getElementById('sucesso-titulo');
+    const msg = document.getElementById('sucesso-msg');
+    if (dados.presenca === 'nao') {
+      titulo.textContent = 'Resposta registrada';
+      msg.textContent = 'Que pena que não poderá ir. Obrigado por avisar com carinho!';
+    }
+    form.style.display = 'none';
+    document.getElementById('sucesso').classList.add('visivel');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function enviar(dados) {
+    btnEnviar.disabled = true;
+    btnEnviar.textContent = 'Enviando...';
+
+    // Modo demonstração enquanto o webhook não estiver configurado
+    if (!WEBHOOK_URL || WEBHOOK_URL.indexOf('COLE_AQUI') === 0) {
+      console.warn('WEBHOOK_URL não configurado — rodando em modo demonstração.', dados);
+      setTimeout(function () { mostrarSucesso(dados); }, 500);
+      return;
+    }
+
+    fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dados)
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        mostrarSucesso(dados);
+      })
+      .catch(function (err) {
+        console.error(err);
+        aviso.textContent = 'Não foi possível enviar agora. Tente novamente em instantes.';
+        btnEnviar.disabled = false;
+        btnEnviar.textContent = 'Enviar confirmação';
+      });
+  }
+</script>
+</body>
+</html>
