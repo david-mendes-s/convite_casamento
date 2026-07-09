@@ -353,7 +353,12 @@
       total_pessoas: vai ? Number(document.getElementById('total').value) || 1 : 0,
       acompanhantes: acompanhantes,
       acompanhantes_texto: acompanhantes.join(', '),
-      data_envio: new Date().toISOString(),
+      data_envio: new Date().toLocaleString('pt-BR', {
+        timeZone: 'America/Sao_Paulo',
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      }),
+      data_envio_iso: new Date().toISOString(),
       origem: 'convite-web'
     };
 
