@@ -1,0 +1,120 @@
+{
+  "name": "Convite RSVP — Alyce e David",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "convite-rsvp",
+        "responseMode": "onReceived",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "b1a1a111-1111-4111-8111-111111111111",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [220, 300],
+      "webhookId": "convite-rsvp"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "Data",
+              "value": "={{ $json.body.data_envio }}",
+              "type": "string"
+            },
+            {
+              "id": "a2",
+              "name": "Nome",
+              "value": "={{ $json.body.nome }}",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "Presença",
+              "value": "={{ $json.body.presenca_texto }}",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "Pessoas",
+              "value": "={{ $json.body.total_pessoas }}",
+              "type": "number"
+            },
+            {
+              "id": "a5",
+              "name": "Acompanhantes",
+              "value": "={{ $json.body.acompanhantes_texto }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c2b2b222-2222-4222-8222-222222222222",
+      "name": "Organiza campos",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "d3c3c333-3333-4333-8333-333333333333",
+      "name": "Salva na planilha",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [700, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Organiza campos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Organiza campos": {
+      "main": [
+        [
+          {
+            "node": "Salva na planilha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
